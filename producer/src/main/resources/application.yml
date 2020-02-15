@@ -1,0 +1,22 @@
+server:
+  port: 8065
+spring:
+  application:
+    name: producer
+  datasource:
+    url: jdbc:mysql://localhost:3306/bbb?useSSL=true&characterEncoding=utf-8
+    username: root
+    password: excellent
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+mybatis:
+  mapper-locations: classpath*:mappers/**/*Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #sql语句输出
+    map-underscore-to-camel-case: true #下划线自动转驼峰

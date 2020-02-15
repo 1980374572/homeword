@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bnn.mapper.HomeworkMapper">
+ <select id="findAllBySearch" parameterType="com.bnn.request.Search" resultType="com.bnn.entity.Homework">
+  select
+    hom.id,
+    hom.course_id courseId,
+    cou.name courseName,
+    hom.class_id classId,
+    cla.name className,
+    hom.teacher_id teacherId,
+    tea.name teacherName,
+    hom.work_no workNo,
+    hom.finish_date finishDate,
+    left(hom.work_conent,20) workConent,
+    stu.`name` studentName,
+    hom.file_url fileUrl,
+    hom.notify_status notifyStatus
+
+    from t_homework hom
+    left join t_course cou on hom.course_id = cou.id
+    left join t_class cla on hom.class_id = cla.id
+    left join t_teacher tea on hom.teacher_id = tea.id
+    left join t_student stu on hom.id = stu.id
+ </select>
+  <select id="findAllByCourse" resultType="com.bnn.entity.Course">
+    select * from t_course
+  </select>
+  <select id="findAllByClass" resultType="com.bnn.entity.Class">
+    select * from t_class
+  </select>
+  <select id="findAllByTeacher" resultType="com.bnn.entity.Teacher">
+    select * from t_teacher
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from t_homework
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.bnn.entity.Homework">
+    insert into t_homework (id, course_id, class_id, 
+      teacher_id, work_no, finish_date, 
+      work_conent, file_url, notify_status
+      )
+    values (#{id,jdbcType=INTEGER}, #{courseId,jdbcType=INTEGER}, #{classId,jdbcType=INTEGER}, 
+      #{teacherId,jdbcType=INTEGER}, #{workNo,jdbcType=INTEGER}, #{finishDate,jdbcType=TIMESTAMP}, 
+      #{workConent,jdbcType=VARCHAR}, #{fileUrl,jdbcType=VARCHAR}, #{notifyStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <select id="findAllStu" resultType="com.bnn.entity.Student">
+    select * from t_student
+  </select>
+  <insert id="insertSelective" parameterType="com.bnn.entity.Homework">
+    insert into t_homework
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="classId != null">
+        class_id,
+      </if>
+      <if test="teacherId != null">
+        teacher_id,
+      </if>
+      <if test="workNo != null">
+        work_no,
+      </if>
+      <if test="finishDate != null">
+        finish_date,
+      </if>
+      <if test="workConent != null">
+        work_conent,
+      </if>
+      <if test="fileUrl != null">
+        file_url,
+      </if>
+      <if test="notifyStatus != null">
+        notify_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="teacherId != null">
+        #{teacherId,jdbcType=INTEGER},
+      </if>
+      <if test="workNo != null">
+        #{workNo,jdbcType=INTEGER},
+      </if>
+      <if test="finishDate != null">
+        #{finishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workConent != null">
+        #{workConent,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null">
+        #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyStatus != null">
+        #{notifyStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bnn.entity.Homework">
+    update t_homework
+    <set>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="classId != null">
+        class_id = #{classId,jdbcType=INTEGER},
+      </if>
+      <if test="teacherId != null">
+        teacher_id = #{teacherId,jdbcType=INTEGER},
+      </if>
+      <if test="workNo != null">
+        work_no = #{workNo,jdbcType=INTEGER},
+      </if>
+      <if test="finishDate != null">
+        finish_date = #{finishDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="workConent != null">
+        work_conent = #{workConent,jdbcType=VARCHAR},
+      </if>
+      <if test="fileUrl != null">
+        file_url = #{fileUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyStatus != null">
+        notify_status = #{notifyStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bnn.entity.Homework">
+    update t_homework
+    set course_id = #{courseId,jdbcType=INTEGER},
+      class_id = #{classId,jdbcType=INTEGER},
+      teacher_id = #{teacherId,jdbcType=INTEGER},
+      work_no = #{workNo,jdbcType=INTEGER},
+      finish_date = #{finishDate,jdbcType=TIMESTAMP},
+      work_conent = #{workConent,jdbcType=VARCHAR},
+      file_url = #{fileUrl,jdbcType=VARCHAR},
+      notify_status = #{notifyStatus,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
